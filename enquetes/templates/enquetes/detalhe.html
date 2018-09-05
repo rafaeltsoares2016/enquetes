@@ -1,0 +1,19 @@
+{% extends 'enquetes/base.html' %}
+
+{% block content %}
+	<title>Detalhe</title>
+
+	<h1>{{ pergunta.texto_pergunta }}</h1>
+
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+	<form action="{% url 'enquetes:voto' pergunta.id %}" method="post">
+		{% csrf_token %}
+		{% for choice in pergunta.choice_set.all %}
+			<input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+			<label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+		{% endfor %}
+		<input type="submit" name="voto" value="Voto">
+	</form>
+
+{% endblock %}
